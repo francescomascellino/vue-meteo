@@ -1,0 +1,82 @@
+<script>
+
+export default {
+
+    name: 'SavedLocations',
+
+    props: {
+
+        savedLocations: Array
+
+    },
+
+    emits: ['deleteLocation', 'startSearch'],
+
+
+    data() {
+
+        return {
+
+
+        }
+
+    },
+
+    methods: {
+
+    },
+
+    mounted() {
+
+    }
+
+}
+</script>
+
+<template>
+    <h3>Your Bookmarks:</h3>
+    <div class="col d-flex align-items-center border rounded p-0" v-if="savedLocations.length > 0"
+        v-for="location in savedLocations">
+
+        <div class="saved-location fade-in flex-grow-1 align-content-center ms-2"
+            @click="$emit('startSearch', location.name)">
+            <span>{{ location.name }}</span>
+        </div>
+
+        <button class="fade-in btn btn-danger ms-auto" @click="$emit('deleteLocation')"><i
+                class="fa-solid fa-trash"></i></button>
+
+    </div>
+
+    <div class="col text-center border rounded p-2" v-if="savedLocations.length == 0">
+        <span class="location-container">You have not saved any locations.</span>
+    </div>
+
+    <div class="saved-locations-counter col d-flex align-items-center rounded p-0">
+
+        <template v-if="savedLocations.length === 0">
+            <span class="fade-in text-success">You can save up to 4 locations</span>
+        </template>
+
+        <template v-else-if="savedLocations.length < 4">
+            <span class="fade-in text-warning">You can save {{ 4 - savedLocations.length }} more location{{
+        savedLocations.length < 3 ? 's' : '' }}</span>
+        </template>
+
+        <template v-else>
+            <span class="fade-in text-danger">Your saved locations slots are full</span>
+        </template>
+
+    </div>
+</template>
+
+<style scoped>
+.saved-location {
+    cursor: pointer;
+    height: 38px;
+}
+
+.saved-locations-counter {
+    font-size: smaller;
+}
+</style>
