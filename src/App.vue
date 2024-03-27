@@ -32,13 +32,13 @@ export default {
             currentLocation: '',
 
             // TOMTOM API DATA
-            TomTomAPI_KEY: 'QTQljhHM9rS4d2vJLMcDX9qzl8tyGA43',
+            TomTomAPI_KEY: 'YOUR API KEY HERE',
             latitude: '',
             longitude: '',
             suggestions: [],
 
             // OPENWATHER API DATA
-            API_KEY: 'bd832622acc99b03e95f5648052a97cf',
+            API_KEY: 'YOUR API KEY HERE',
             units: 'metric',
             lang: 'it',
             location: '',
