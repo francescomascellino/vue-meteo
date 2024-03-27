@@ -16,7 +16,7 @@ export default {
 
     },
 
-    emits: ['saveLocation'],
+    emits: ['saveLocation', 'deleteLocation'],
 
 
     data() {
@@ -44,12 +44,15 @@ export default {
 
 <template>
     <div
-        class="weather-card col d-flex justify-content-center align-items-center flex-column position-relative border rounded">
+        class="weather-card glass-panel col d-flex justify-content-center align-items-center flex-column position-relative rounded">
 
         <template v-if="!loading && location">
 
-            <h1 class="fade-in position-absolute top-0 start-0 ms-2" v-if="bookmarked"><i
-                    class="fa-solid fa-bookmark"></i></h1>
+            <h1 class="bookmark fade-in position-absolute top-0 start-0 ms-2" v-if="!bookmarked"><i
+                    class="fa-regular fa-bookmark" @click="$emit('saveLocation')"></i></h1>
+
+            <h1 class="bookmark fade-in position-absolute top-0 start-0 ms-2" v-else><i class="fa-solid fa-bookmark"
+                    @click="$emit('deleteLocation')"></i></h1>
 
             <h1 class="fade-in">{{ temperature }}</h1>
 
@@ -59,11 +62,6 @@ export default {
             <h5 class="fade-in">{{ location }}</h5>
 
             <h5 class="fade-in">{{ description }}</h5>
-
-            <button class="fade-in btn btn-success m-2" @click="$emit('saveLocation')" v-if="!bookmarked"><i
-                    class="fa-regular fa-bookmark"></i></button>
-
-
 
         </template>
 
@@ -94,8 +92,8 @@ export default {
     }
 }
 
-.w {
-    min-height: 304px;
+.bookmark {
+    cursor: pointer;
 }
 
 .no-gps {

@@ -1,6 +1,67 @@
 // USE BS
 @use 'bootstrap';
 
+body {
+
+    background-position: center;
+    background-size: cover;
+
+    &.morning {
+        background: linear-gradient(to bottom, #FFD3B5, #FFDFC4, #FFEACC, #F4F3EC, #B5E3FF);
+        color: #1F1F47;
+
+        .btn {
+            color: #1F1F47;
+        }
+    }
+
+    &.afternoon {
+        background: linear-gradient(to bottom, #B5E3FF, #66A5FF, #0066FF, #0047B3, #002F80);
+        color: #FFFFCC;
+
+        .btn {
+            color: #002F80;
+        }
+    }
+
+    &.evening {
+        // background-image: url('./assets/img/evening.jpg');
+        background: linear-gradient(to bottom, #1F1F47, #2C2C7E, #353584, #454585, #524A8F, #524A8F, #6F67A2, #8A7EBF);
+        color: white;
+
+        .btn {
+            color: #FFFFCC;
+        }
+    }
+}
+
+#app {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.glass-panel {
+    background-color: rgba(240, 248, 255, 40%);
+    border: 1px solid rgba(240, 248, 255, 0.2);
+    box-shadow: 0px 0px 10px 3px rgba(240, 248, 255, 0.2);
+}
+
+input[type=search] {
+    border: 1px solid rgba(240, 248, 255, 0.3);
+
+    &:focus {
+        background-color: rgba(240, 248, 255, 40%);
+        border: 1px solid rgba(240, 248, 255, 0.2);
+        box-shadow: 0px 0px 10px 3px rgba(240, 248, 255, 0.2);
+    }
+
+}
+
+.small-btn {
+    width: 44px;
+    aspect-ratio: 1/1 !important;
+}
+
 /* #region ANIMATIONS */
 
 .fade-in {

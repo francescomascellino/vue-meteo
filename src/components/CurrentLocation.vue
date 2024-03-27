@@ -38,20 +38,27 @@ export default {
 </script>
 
 <template>
-    <div class="col d-flex align-items-center border rounded p-0">
+    <div class="col d-flex align-items-center p-0">
 
-        <div class="saved-location fade-in flex-grow-1 align-content-center ms-2" v-if="locationEnabled">
-            <span>Your Location: {{ currentLocation }}</span>
+        <div class="saved-location glass-panel fade-in flex-grow-1 align-content-center rounded p-2" v-if="locationEnabled">
+            <span class="ms-1">Your Location: {{ currentLocation }}</span>
         </div>
 
-        <div class="location-container fade-in flex-grow-1 d-flex align-items-center ms-2 " v-else>
+        <div class="location-container fade-in flex-grow-1 d-flex align-items-center rounded" v-else>
             <img class="no-gps" :src="getImagePath('../assets/img/nogps.png')" alt="Location disabled">
             <span>Location disabled!</span>
         </div>
 
-        <button class="fade-in btn btn-light ms-auto" @click="$emit('startSearch')" v-if="locationEnabled">View</button>
+        <div>
+            <button class="small-btn fade-in btn mx-2" @click="$emit('startSearch')"
+                v-if="locationEnabled"><i class="fa-solid fa-eye"></i></button>
+        </div>
 
     </div>
+
+
+
+
 </template>
 
 <style scoped>

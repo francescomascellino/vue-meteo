@@ -35,18 +35,16 @@ export default {
 </script>
 
 <template>
-    <h1 class="text-light text-center">Meteo</h1>
-
-    <div class="m-2 text-light">
+    <div class="m-2">
 
         <label for="geoSearch" class="form-label">Explore Forecast</label>
 
         <div class="fade-in input-group">
-            <input type="search" name="geoSearch" id="geoSearch" class="form-control" placeholder="Search..."
+            <input type="search" name="geoSearch" id="geoSearch" class="glass-panel form-control rounded" placeholder="Search..."
                 aria-describedby="helpId" @keyup.enter="$emit('startSearch')" :value="query"
                 @input="$emit('update:query', $event.target.value); $emit('suggest')" list="suggestions" />
 
-            <button class="input-group-text btn btn-light" @click="$emit('startSearch')">
+            <button class="small-btn input-group-text btn mx-2" @click="$emit('startSearch')">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
@@ -57,10 +55,9 @@ export default {
             </option>
         </datalist>
 
-        <small id="helpId" class="text-light">What the weather will be like today?</small>
+        <small id="helpId">What the small will be like today?</small>
 
     </div>
-
 </template>
 
 <style scoped></style>

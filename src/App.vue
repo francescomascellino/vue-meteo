@@ -204,7 +204,7 @@ export default {
 
         // SAVES A LOCATION
         saveLocation() {
-
+            
             if (this.savedLocations.length < 4) {
 
                 // GET A BOOLEAN VALUE TO CHECK IF THE LOCATION IS ALREADY SAVED
@@ -284,6 +284,24 @@ export default {
             // EMPTIES THE SAVED LOCATIONS ARRAY IF THERE ARE NO LOCATIONS SAVED IN THE STORAGE
             this.savedLocations = [];
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let date = new Date();
+            let hour = date.getHours();
+
+            console.log(hour);
+
+            let body = document.body;
+
+            if (hour >= 6 && hour < 12) {
+                body.classList.add("morning");
+            } else if (hour >= 12 && hour < 18) {
+                body.classList.add("afternoon");
+            } else {
+                body.classList.add("evening");
+            }
+        });
+
     },
 
     computed: {
@@ -297,13 +315,18 @@ export default {
 </script>
 
 <template>
+
+    <header class="pt-3">
+        <h1 class="text-center"><i class="fa-solid fa-cloud-sun-rain me-2"></i>Vue-Ather</h1>
+    </header>
+
     <!-- SEARCHBAR -->
     <!-- Per impostazione predefinita, v-model su un componente utilizza modelValue come prop e update:modelValue come evento. Possiamo modificare questi nomi passando un argomento a v-model: -->
     <SearchBar v-model:query="geoSearchInput" @startSearch="geoSearch(geoSearchInput)"
         @suggest="suggestLocationsDebounced()" :suggestions="suggestions" />
     <!-- In questo caso, il componente figlio dovrebbe aspettarsi una prop query ed emettere un evento update:query per aggiornare il valore nel componente genitore -->
 
-    <div class="container-fluid text-light">
+    <div class="container-fluid">
 
         <div class="row flex-column p-2 gy-2">
 
@@ -313,7 +336,8 @@ export default {
 
             <!-- METEO PANEL -->
             <MeteoPanel :loading="this.loading" :temperature="this.temperature" :icon="icon" :description="description"
-                :location="location" :bookmarked="bookmarked" @saveLocation="saveLocation" />
+                :location="location" :bookmarked="bookmarked" @saveLocation="saveLocation"
+                @deleteLocation="deleteLocation(location)" />
 
             <!-- SAVED LOCATIONS LIST -->
             <SavedLocations :savedLocations="savedLocations" @deleteLocation="deleteLocation(location)"
@@ -322,7 +346,7 @@ export default {
         </div>
     </div>
 
-    <footer class="text-light p-2">
+    <footer class="p-2">
 
         <p>
             Gps navigation icons created by <a href="https://www.flaticon.com/free-icons/gps-navigation"

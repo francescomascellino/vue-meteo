@@ -35,20 +35,20 @@ export default {
 
 <template>
     <h3>Your Bookmarks:</h3>
-    <div class="col d-flex align-items-center border rounded p-0" v-if="savedLocations.length > 0"
+    <div class="col d-flex align-items-center p-0" v-if="savedLocations.length > 0"
         v-for="location in savedLocations">
 
-        <div class="saved-location fade-in flex-grow-1 align-content-center ms-2"
+        <div class="saved-location glass-panel fade-in flex-grow-1 align-content-center rounded"
             @click="$emit('startSearch', location.name)">
-            <span>{{ location.name }}</span>
+            <span class="ms-2">{{ location.name }}</span>
         </div>
 
-        <button class="fade-in btn btn-danger ms-auto" @click="$emit('deleteLocation')"><i
+        <button class="small-btn fade-in btn mx-2" @click="$emit('deleteLocation')"><i
                 class="fa-solid fa-trash"></i></button>
 
     </div>
 
-    <div class="col text-center border rounded p-2" v-if="savedLocations.length == 0">
+    <div class="glass-panel col text-center rounded p-2" v-if="savedLocations.length == 0">
         <span class="location-container">You have not saved any locations.</span>
     </div>
 
@@ -59,7 +59,7 @@ export default {
         </template>
 
         <template v-else-if="savedLocations.length < 4">
-            <span class="fade-in text-warning">You can save {{ 4 - savedLocations.length }} more location{{
+            <span class="fade-in">You can save {{ 4 - savedLocations.length }} more location{{
         savedLocations.length < 3 ? 's' : '' }}</span>
         </template>
 
