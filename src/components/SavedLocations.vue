@@ -10,26 +10,7 @@ export default {
 
     },
 
-    emits: ['deleteLocation', 'startSearch'],
-
-
-    data() {
-
-        return {
-
-
-        }
-
-    },
-
-    methods: {
-
-    },
-
-    mounted() {
-
-    }
-
+    emits: ['deleteLocation', 'startSearch']
 }
 </script>
 

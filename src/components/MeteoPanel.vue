@@ -18,27 +18,12 @@ export default {
 
     emits: ['saveLocation', 'deleteLocation'],
 
-
-    data() {
-
-        return {
-
-
-        }
-
-    },
-
     methods: {
         // GET IMAGES RELATIVE PATH
         getImagePath(url) {
             return new URL(`${url}`, import.meta.url).href
         },
-    },
-
-    mounted() {
-
     }
-
 }
 </script>
 

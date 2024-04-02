@@ -5,6 +5,7 @@ body {
 
     background-position: center;
     background-size: cover;
+    min-height: 100vh!important;
 
     &.morning {
         background: linear-gradient(to bottom, #FFD3B5, #FFDFC4, #FFEACC, #F4F3EC, #B5E3FF);

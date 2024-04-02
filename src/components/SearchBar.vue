@@ -10,26 +10,7 @@ export default {
 
     },
 
-    emits: ['update:query', 'startSearch', 'suggest'],
-
-
-    data() {
-
-        return {
-
-
-        }
-
-    },
-
-    methods: {
-
-    },
-
-    mounted() {
-
-    }
-
+    emits: ['update:query', 'startSearch', 'suggest']
 }
 
 </script>
