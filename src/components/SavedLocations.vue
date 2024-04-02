@@ -24,7 +24,7 @@ export default {
             <span class="ms-2">{{ location.name }}</span>
         </div>
 
-        <button class="small-btn fade-in btn mx-2" @click="$emit('deleteLocation')"><i
+        <button class="small-btn fade-in btn mx-2" @click="$emit('deleteLocation', location.name)"><i
                 class="fa-solid fa-trash"></i></button>
 
     </div>

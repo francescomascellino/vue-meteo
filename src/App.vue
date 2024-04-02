@@ -234,10 +234,13 @@ export default {
 
         // DELETES A LOCATION
         deleteLocation(location) {
-            console.log("deleting ", location);
+            console.log("Deleting ", location);
 
-            // REMOVES THE LOCATION FROM THE DAVED LOCATIONS ARRAY
-            this.savedLocations.splice(this.savedLocations.indexOf(location), 1);
+            // REMOVES THE LOCATION FROM THE DAVED LOCATIONS OBJECT
+            // WE HAVE TO FIND  THE INDEX OF THE ELEMENT WICH NAME PROPERTY IS THE LOCATION WE WANT TO DELETE
+            console.log('Location Index: ', this.savedLocations.findIndex(item => item.name == location));
+            this.savedLocations.splice(this.savedLocations.findIndex(item => item.name == location), 1);
+            console.log('Saved Locations: ', this.savedLocations);
 
             // UPDATES LOCAL STORAGE DATA WITH LOCAL DATA
             localStorage.setItem("savedLocations", JSON.stringify(this.savedLocations));
@@ -336,7 +339,7 @@ export default {
                 @deleteLocation="deleteLocation(location)" />
 
             <!-- SAVED LOCATIONS LIST -->
-            <SavedLocations :savedLocations="savedLocations" @deleteLocation="deleteLocation(location)"
+            <SavedLocations :savedLocations="savedLocations" @deleteLocation="deleteLocation($event)"
                 @startSearch="geoSearch($event)" />
 
         </div>
@@ -362,120 +365,3 @@ export default {
 </template>
 
 <style></style>
-<<<<<<< HEAD
-
-<!-- ORIGINAL CODE -->
-
-<!-- SEARCHBAR  -->
-<!--     
-    <div class="m-2 text-light">
-
-        <label for="geoSearch" class="form-label">Explore Forecast</label>
-
-        <div class="fade-in input-group">
-            <input type="search" name="geoSearch" id="geoSearch" class="form-control" placeholder="Search..."
-                aria-describedby="helpId" @keyup.enter="geoSearch(geoSearchInput)" @input="suggestLocationsDebounced()"
-                v-model="geoSearchInput" list="suggestions" />
-
-            <button class="input-group-text btn btn-light" @click="geoSearch(geoSearchInput)">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
-
-        <datalist id="suggestions">
-            <option v-for="suggestion in suggestions" :value="suggestion">
-                {{ suggestion }}
-            </option>
-        </datalist>
-
-        <small id="helpId" class="text-light">What the weather will be like today?</small>
-
-    </div> 
--->
-
-<!-- CURRENT LOCATION -->
-<!-- 
-<div class="col d-flex align-items-center border rounded p-0">
-
-    <div class="saved-location fade-in flex-grow-1 align-content-center ms-2" v-if="locationEnabled">
-        <span>Your Location: {{ currentLocation }}</span>
-    </div>
-
-    <div class="fade-in flex-grow-1 ms-2 location-container" v-else>
-        <img class="no-gps" :src="getImagePath('./assets/img/nogps.png')" alt="Location Unavaiable">
-        <span>Location disabled!</span>
-    </div>
-
-    <button class="fade-in btn btn-light ms-auto" @click="geoSearch(currentLocation)"
-        v-if="locationEnabled">View</button>
-
-</div>
--->
-
-<!-- METEO PANEL -->
-<!--             
-    <div class="weather-card col d-flex justify-content-center align-items-center flex-column border rounded ">
-
-                <template v-if="!loading">
-
-                    <h1 class="fade-in">{{ this.temperature }}</h1>
-
-                    <img class="weather-ico fade-in" :src="`https://openweathermap.org/img/wn/${this.icon}@2x.png`"
-                        alt="{{ this.description }}">
-
-                    <h5 class="fade-in">{{ this.location }}</h5>
-
-                    <h5 class="fade-in">{{ this.description }}</h5>
-
-                    <button class="fade-in btn btn-success m-2" @click="saveLocation()"><i
-                            class="fa-regular fa-bookmark" v-if="!bookmarked"></i> <i class="fa-solid fa-bookmark"
-                            v-else></i></button>
-
-                </template>
-
-                <template v-else>
-                    <div class="loader"></div>
-                </template>
-
-            </div> 
--->
-
-<!-- SAVED LOCATIONS LIST -->
-<!-- 
-            <h3>Your Bookmarks:</h3>
-            <div class="col d-flex align-items-center border rounded p-0" v-if="savedLocations.length > 0"
-                v-for="location in savedLocations">
-
-                <div class="saved-location fade-in flex-grow-1 align-content-center ms-2"
-                    @click="geoSearch(location.name)">
-                    <span>{{ location.name }}</span>
-                </div>
-
-                <button class="fade-in btn btn-danger ms-auto" @click="deleteLocation(location)"><i
-                        class="fa-solid fa-trash"></i></button>
-
-            </div>
-
-            <div class="col text-center border rounded p-2" v-if="savedLocations.length == 0">
-                <span class="location-container">You have not saved any locations.</span>
-            </div>
-
-            <div class="saved-locations-counter col d-flex align-items-center rounded p-0">
-
-                <template v-if="savedLocations.length === 0">
-                    <span class="fade-in text-success">You can save up to 4 locations</span>
-                </template>
-
-                <template v-else-if="savedLocations.length < 4">
-                    <span class="fade-in text-warning">You can save {{ 4 - savedLocations.length }} more location{{
-                    avedLocations.length < 3 ? 's' : '' }}</span>
-                </template>
-
-                <template v-else>
-                    <span class="fade-in text-danger">Your saved locations slots are full</span>
-                </template>
-
-            </div>
--->
-=======
->>>>>>> 889ecf0ec310cf12ae62a262cb00abb1ebdf48e3
