@@ -17,10 +17,6 @@ export default {
         SavedLocations
     },
 
-    created() {
-
-    },
-
     data() {
         return {
 
@@ -32,13 +28,13 @@ export default {
             currentLocation: '',
 
             // TOMTOM API DATA
-            TomTomAPI_KEY: 'YOUR API KEY HERE',
+            TomTomAPI_KEY: 'QTQljhHM9rS4d2vJLMcDX9qzl8tyGA43',
             latitude: '',
             longitude: '',
             suggestions: [],
 
             // OPENWATHER API DATA
-            API_KEY: 'YOUR API KEY HERE',
+            API_KEY: 'bd832622acc99b03e95f5648052a97cf',
             units: 'metric',
             lang: 'it',
             location: '',
@@ -204,7 +200,7 @@ export default {
 
         // SAVES A LOCATION
         saveLocation() {
-            
+
             if (this.savedLocations.length < 4) {
 
                 // GET A BOOLEAN VALUE TO CHECK IF THE LOCATION IS ALREADY SAVED
