@@ -362,6 +362,7 @@ export default {
 </template>
 
 <style></style>
+<<<<<<< HEAD
 
 <!-- ORIGINAL CODE -->
 
@@ -476,3 +477,5 @@ export default {
 
             </div>
 -->
+=======
+>>>>>>> 889ecf0ec310cf12ae62a262cb00abb1ebdf48e3
