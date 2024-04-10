@@ -28,15 +28,15 @@ export default {
             currentLocation: '',
 
             // TOMTOM API DATA
-            TomTomAPI_KEY: 'YOUR API KEY HERE',
+            TomTomAPI_KEY: import.meta.env.VITE_TOMTOM_API_KEY,
             latitude: '',
             longitude: '',
             suggestions: [],
 
             // OPENWATHER API DATA
-            API_KEY: 'YOUR API KEY HERE',
+            OpenWeatherAPI_KEY: import.meta.env.VITE_OPENWEATHER_API_KEY,
             units: 'metric',
-            lang: 'it',
+            lang: 'en',
             location: '',
             description: '',
             temperature: '',
@@ -72,7 +72,7 @@ export default {
 
             this.location = this.currentLocation;
 
-            const owURL = `https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${this.API_KEY}&units=${this.units}&lang=${this.lang}`;
+            const owURL = `https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${this.OpenWeatherAPI_KEY}&units=${this.units}&lang=${this.lang}`;
 
             const response = await fetch(owURL);
 
@@ -99,54 +99,60 @@ export default {
         async geoSearch(location) {
             console.log('Geocoding...', location);
 
-            this.loading = true;
+            // IF THE SEARCH INPUT VALUE IS NOT NULL STARTS SEARCHING
+            if (location) {
+                this.loading = true;
 
-            const [municipality, country] = location.split(', ');
-            console.log('Municipality: ', municipality);
+                const [municipality, country] = location.split(', ');
+                console.log('Municipality: ', municipality);
 
-            console.log('Country', country);
+                console.log('Country', country);
 
-            const geoResponse = await fetch(`https://api.tomtom.com/search/2/geocode/${location}.json?key=${this.TomTomAPI_KEY}&limit=100`);
+                const geoResponse = await fetch(`https://api.tomtom.com/search/2/geocode/${location}.json?key=${this.TomTomAPI_KEY}&limit=100`);
 
-            const data = await geoResponse.json();
+                const data = await geoResponse.json();
 
-            console.log('Geocoding results: ', data.results);
+                console.log('Geocoding results: ', data.results);
 
-            let found = false;
+                let found = false;
 
-            data.results.forEach(item => {
-                if (item.address.municipality === municipality && item.address.country === country) {
-                    this.latitude = item.position.lat;
-                    this.longitude = item.position.lon;
-                    this.location = item.address.municipality + ', ' + item.address.country;
-                    found = true;
-                    console.log('FOUND: ', item.address.municipality, item.address.country, 'Lat: ', this.latitude, 'Long: ', this.longitude);
+                data.results.forEach(item => {
+                    // IF FINDS A CORRESPONDENCE USES THE FOUND DATA
+                    if (item.address.municipality === municipality && item.address.country === country) {
+                        this.latitude = item.position.lat;
+                        this.longitude = item.position.lon;
+                        this.location = item.address.municipality + ', ' + item.address.country;
+                        found = true; // SETS FOUND ON TRUE
+                        console.log('FOUND: ', item.address.municipality, item.address.country, 'Lat: ', this.latitude, 'Long: ', this.longitude);
+                    }
+                });
+
+                // IF NO MATCH IS FOUND (found IS STILL falsì) USES THE FIRST RESULT
+                if (!found) {
+                    this.latitude = data.results[0].position.lat;
+                    this.longitude = data.results[0].position.lon;
+                    this.location = data.results[0].address.municipality + ", " + data.results[0].address.country;
+                    console.log('USING NEAREST MATCH: ', data.results[0].address.municipality, data.results[0].address.country);
                 }
-            });
 
-            if (!found) {
-                this.latitude = data.results[0].position.lat;
-                this.longitude = data.results[0].position.lon;
-                this.location = data.results[0].address.municipality + ", " + data.results[0].address.country;
-                console.log('USING NEAREST MATCH: ', data.results[0].address.municipality, data.results[0].address.country);
+                const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${this.OpenWeatherAPI_KEY}&units=${this.units}&lang=${this.lang}`);
+
+                const weatherData = await weatherResponse.json();
+
+                this.temperature = `${Math.floor(weatherData.main.temp)}°`;
+
+                this.description = this.capitalize(weatherData.weather[0].description);
+
+                this.icon = weatherData.weather[0].icon;
+
+                console.log('GEOCODED LOCATION =', this.location, '- TEMP =', this.temperature, '- WEATHER =', this.capitalize(this.description));
+
+                console.log('This location is bookmarked? ', this.bookmarked);
+
+                this.loading = false;
+                this.geoSearchInput = null;
             }
 
-            const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.latitude}&lon=${this.longitude}&appid=${this.API_KEY}&units=${this.units}&lang=${this.lang}`);
-
-            const weatherData = await weatherResponse.json();
-
-            this.temperature = `${Math.floor(weatherData.main.temp)}°`;
-
-            this.description = this.capitalize(weatherData.weather[0].description);
-
-            this.icon = weatherData.weather[0].icon;
-
-            console.log('GEOCODED LOCATION =', this.location, '- TEMP =', this.temperature, '- WEATHER =', this.capitalize(this.description));
-
-            console.log('This location is bookmarked? ', this.bookmarked);
-
-            this.loading = false;
-            this.geoSearchInput = null;
         },
 
         // SUGGESTS LOCATIONS
@@ -254,7 +260,6 @@ export default {
     },
 
     mounted() {
-
         // NAVIGATOR INSTANCE
         navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError);
 
@@ -365,3 +370,117 @@ export default {
 </template>
 
 <style></style>
+
+<!-- ORIGINAL CODE -->
+
+<!-- SEARCHBAR  -->
+<!--     
+    <div class="m-2 text-light">
+
+        <label for="geoSearch" class="form-label">Explore Forecast</label>
+
+        <div class="fade-in input-group">
+            <input type="search" name="geoSearch" id="geoSearch" class="form-control" placeholder="Search..."
+                aria-describedby="helpId" @keyup.enter="geoSearch(geoSearchInput)" @input="suggestLocationsDebounced()"
+                v-model="geoSearchInput" list="suggestions" />
+
+            <button class="input-group-text btn btn-light" @click="geoSearch(geoSearchInput)">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <datalist id="suggestions">
+            <option v-for="suggestion in suggestions" :value="suggestion">
+                {{ suggestion }}
+            </option>
+        </datalist>
+
+        <small id="helpId" class="text-light">What the weather will be like today?</small>
+
+    </div> 
+-->
+
+<!-- CURRENT LOCATION -->
+<!-- 
+<div class="col d-flex align-items-center border rounded p-0">
+
+    <div class="saved-location fade-in flex-grow-1 align-content-center ms-2" v-if="locationEnabled">
+        <span>Your Location: {{ currentLocation }}</span>
+    </div>
+
+    <div class="fade-in flex-grow-1 ms-2 location-container" v-else>
+        <img class="no-gps" :src="getImagePath('./assets/img/nogps.png')" alt="Location Unavaiable">
+        <span>Location disabled!</span>
+    </div>
+
+    <button class="fade-in btn btn-light ms-auto" @click="geoSearch(currentLocation)"
+        v-if="locationEnabled">View</button>
+
+</div>
+-->
+
+<!-- METEO PANEL -->
+<!--             
+    <div class="weather-card col d-flex justify-content-center align-items-center flex-column border rounded ">
+
+                <template v-if="!loading">
+
+                    <h1 class="fade-in">{{ this.temperature }}</h1>
+
+                    <img class="weather-ico fade-in" :src="`https://openweathermap.org/img/wn/${this.icon}@2x.png`"
+                        alt="{{ this.description }}">
+
+                    <h5 class="fade-in">{{ this.location }}</h5>
+
+                    <h5 class="fade-in">{{ this.description }}</h5>
+
+                    <button class="fade-in btn btn-success m-2" @click="saveLocation()"><i
+                            class="fa-regular fa-bookmark" v-if="!bookmarked"></i> <i class="fa-solid fa-bookmark"
+                            v-else></i></button>
+
+                </template>
+
+                <template v-else>
+                    <div class="loader"></div>
+                </template>
+
+            </div> 
+-->
+
+<!-- SAVED LOCATIONS LIST -->
+<!-- 
+            <h3>Your Bookmarks:</h3>
+            <div class="col d-flex align-items-center border rounded p-0" v-if="savedLocations.length > 0"
+                v-for="location in savedLocations">
+
+                <div class="saved-location fade-in flex-grow-1 align-content-center ms-2"
+                    @click="geoSearch(location.name)">
+                    <span>{{ location.name }}</span>
+                </div>
+
+                <button class="fade-in btn btn-danger ms-auto" @click="deleteLocation(location)"><i
+                        class="fa-solid fa-trash"></i></button>
+
+            </div>
+
+            <div class="col text-center border rounded p-2" v-if="savedLocations.length == 0">
+                <span class="location-container">You have not saved any locations.</span>
+            </div>
+
+            <div class="saved-locations-counter col d-flex align-items-center rounded p-0">
+
+                <template v-if="savedLocations.length === 0">
+                    <span class="fade-in text-success">You can save up to 4 locations</span>
+                </template>
+
+                <template v-else-if="savedLocations.length < 4">
+                    <span class="fade-in text-warning">You can save {{ 4 - savedLocations.length }} more location{{
+                    avedLocations.length < 3 ? 's' : '' }}</span>
+                </template>
+
+                <template v-else>
+                    <span class="fade-in text-danger">Your saved locations slots are full</span>
+                </template>
+
+            </div>
+-->

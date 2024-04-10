@@ -20,11 +20,11 @@ export default {
         v-for="location in savedLocations">
 
         <div class="saved-location glass-panel fade-in flex-grow-1 align-content-center rounded"
-            @click="$emit('startSearch', location.name)">
+            @click="$emit('startSearch', location.name)" title="View">
             <span class="ms-2">{{ location.name }}</span>
         </div>
 
-        <button class="small-btn fade-in btn mx-2" @click="$emit('deleteLocation', location.name)"><i
+        <button class="small-btn fade-in btn mx-2" @click="$emit('deleteLocation', location.name)" title="Delete"><i
                 class="fa-solid fa-trash"></i></button>
 
     </div>

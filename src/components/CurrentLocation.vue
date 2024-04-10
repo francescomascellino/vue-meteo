@@ -36,7 +36,7 @@ export default {
 
         <div>
             <button class="small-btn fade-in btn mx-2" @click="$emit('startSearch')"
-                v-if="locationEnabled"><i class="fa-solid fa-eye"></i></button>
+                v-if="locationEnabled"><i class="fa-solid fa-eye" title="View"></i></button>
         </div>
 
     </div>

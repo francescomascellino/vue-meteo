@@ -33,10 +33,10 @@ export default {
 
         <template v-if="!loading && location">
 
-            <h1 class="bookmark fade-in position-absolute top-0 start-0 ms-2" v-if="!bookmarked"><i
+            <h1 class="bookmark fade-in position-absolute top-0 start-0 ms-2" title="Save" v-if="!bookmarked" ><i
                     class="fa-regular fa-bookmark" @click="$emit('saveLocation')"></i></h1>
 
-            <h1 class="bookmark fade-in position-absolute top-0 start-0 ms-2" v-else><i class="fa-solid fa-bookmark"
+            <h1 class="bookmark fade-in position-absolute top-0 start-0 ms-2" title="Delete" v-else><i class="fa-solid fa-bookmark"
                     @click="$emit('deleteLocation')"></i></h1>
 
             <h1 class="fade-in">{{ temperature }}</h1>

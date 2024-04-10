@@ -25,7 +25,7 @@ export default {
                 aria-describedby="helpId" @keyup.enter="$emit('startSearch')" :value="query"
                 @input="$emit('update:query', $event.target.value); $emit('suggest')" list="suggestions" />
 
-            <button class="small-btn input-group-text btn mx-2" @click="$emit('startSearch')">
+            <button class="small-btn input-group-text btn mx-2" @click="$emit('startSearch')" title="Search">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
